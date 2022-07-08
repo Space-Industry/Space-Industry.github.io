@@ -1,8 +1,15 @@
+var Res_Ores = 0;
+
+var Event_FirstOreCanTriggered = false;
+var Event_FirstTenOreCanTriggered = false;
+
 function Init() {
     AddMessage('Welcome to Space Industry!');
     AddMessage('Click the \'mine\' button to get you first ore!');
     AddButton('mine');
     AddResource('ore');
+    Event_FirstOreCanTriggered = true;
+    Event_FirstTenOreCanTriggered = true;
 }
 
 function AddMessage(msg) {
@@ -15,10 +22,33 @@ function AddMessage(msg) {
     }
 }
 
-Res_Ores = 0;
+function CanTriggerFirstOre() {
+    return Res_Ores == 1;
+}
+
+function TriggerFirstOre() {
+    AddMessage ('Amazing!You have got your first ore!Try to get more!');
+    Event_FirstOreCanTriggered = false;
+    Event_FirstTenOreCanTriggered = true;
+}
+
+function CanTriggerFirstTenOre() {
+    return Res_Ores == 10;
+}
+
+function TriggerFirstTenOre() {
+    AddMessage ('Great!You have collected 10 ores!Now you can update your mine machine!');
+    Event_FirstTenOreCanTriggered = false;
+}
 
 function DoMine() {
     Res_Ores ++;
+    if (Event_FirstOreCanTriggered && CanTriggerFirstOre()) {
+        TriggerFirstOre();
+    }
+    if (Event_FirstTenOreCanTriggered && CanTriggerFirstTenOre()) {
+        TriggerFirstTenOre();
+    }
     UpdateResource('ore', Res_Ores);
 }
 

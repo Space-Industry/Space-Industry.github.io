@@ -7,8 +7,11 @@ var EventFirstCome = {
     WhenTrigger: function() {
         AddMessage(L10NMessages[this.Id + '1'][CurL10NMode]);
         AddMessage(L10NMessages[this.Id + '2'][CurL10NMode]);
+
         SetTrigger(EventFirstCome, false);
         SetTrigger(EventFirstOre, true);
+
+        Unlock(ResOreLock);
     }
 };
 
@@ -20,6 +23,7 @@ var EventFirstOre = {
     },
     WhenTrigger: function() {
         AddMessage (L10NMessages[this.Id][CurL10NMode]);
+
         SetTrigger(EventFirstOre, false);
         SetTrigger(EventFirstTenOre, true);
     }
@@ -33,7 +37,10 @@ var EventFirstTenOre = {
     },
     WhenTrigger: function() {
         AddMessage (L10NMessages[this.Id][CurL10NMode]);
+
         SetTrigger(EventFirstTenOre, false);
+
+        Unlock(OperatorUpdateLock);
     }
 };
 

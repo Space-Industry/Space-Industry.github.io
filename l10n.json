@@ -24,9 +24,13 @@
         }
     },
     "operators": {
-        "mine": {
+        "mine_get": {
             "en_us": "mine",
             "zh_cn": "挖矿"
+        },
+        "mine_update": {
+            "en_us": "update machine",
+            "zh_cn": "升级矿机"
         },
         "lang": {
             "en_us": "change language",
@@ -35,6 +39,16 @@
         "reset": {
             "en_us": "reset",
             "zh_cn": "重置"
+        }
+    },
+    "miscs": {
+        "update_cost": {
+            "en_us": "update cost",
+            "zh_cn": "升级花费"
+        },
+        "level": {
+            "en_us": "level",
+            "zh_cn": "等级"
         }
     }
 }

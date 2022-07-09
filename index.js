@@ -8,11 +8,10 @@ function Init() {
     InitL10N();
     InitEvents();
 
-    AddOperator(ResOre.GetId, function() {ResOre.Get();},  2,  1,  4,  1);
     AddOperator(Id_Lang,     ChangeLang,                   1,  1,  8,  1);
-    AddOperator(Id_Reset,    Reset,                        1,  9,  4,  1);
+    AddOperator(Id_Reset,    Reset,                        1,  10,  4,  1);
 
-    AddResource(ResOre);
+    InitLocks();
 
     TryTriggerEvent(EventFirstCome);
 }

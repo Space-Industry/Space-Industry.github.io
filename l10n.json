@@ -15,12 +15,20 @@
         "first_ten_ore": {
             "en_us": "Great!You have collected 10 ores!Now you can update your mine machine!",
             "zh_cn": "真好!你已经收集了10块矿石!现在你可以升级你的挖掘机了!"
+        },
+        "level_5_mine": {
+            "en_us": "We should some fuel to update our mine machine!",
+            "zh_cn": "我们需要一些燃料来升级我们的挖掘机!"
         }
     },
     "resources": {
         "ore": {
             "en_us": "ore",
             "zh_cn": "矿石"
+        },
+        "fuel": {
+            "en_us": "fuel",
+            "zh_cn": "燃料"
         }
     },
     "operators": {
@@ -31,6 +39,14 @@
         "mine_update": {
             "en_us": "update machine",
             "zh_cn": "升级矿机"
+        },
+        "draw_get": {
+            "en_us": "draw",
+            "zh_cn": "汲取"
+        },
+        "draw_update": {
+            "en_us": "update collector",
+            "zh_cn": "升级采集器"
         },
         "lang": {
             "en_us": "change language",

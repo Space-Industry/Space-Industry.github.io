@@ -20,6 +20,18 @@ var OperatorUpdateLock = {
     }
 }
 
+var ResFuelLock = {
+    Id: 'res_fuel',
+    unlocked: false,
+    Unlock: function() {
+        this.unlocked = true;
+
+        AddOperator(ResFuel.GetId, function() {ResFuel.Get();},  3,  1,  4,  1);
+        AddOperator(ResFuel.UpdateId, function() {ResFuel.Update();}, 3, 6, 8, 1);
+        AddResource(ResFuel);
+    }
+}
+
 function Unlock(lock) {
     SetStorage('lock_' + lock.Id, 'true');
     lock.Unlock();
@@ -34,4 +46,5 @@ function TryUnlock(lock) {
 function InitLocks() {
     TryUnlock(ResOreLock);
     TryUnlock(OperatorUpdateLock);
+    TryUnlock(ResFuelLock);
 }

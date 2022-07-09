@@ -39,8 +39,24 @@ var EventFirstTenOre = {
         AddMessage (L10NMessages[this.Id][CurL10NMode]);
 
         SetTrigger(EventFirstTenOre, false);
+        SetTrigger(EventLevel5Mine, true);
 
         Unlock(OperatorUpdateLock);
+    }
+};
+
+var EventLevel5Mine = {
+    CanTriggered: false,
+    Id: 'level_5_mine',
+    CanTrigger: function() {
+        return this.CanTriggered && ResOre.UpdateLevel == 5;
+    },
+    WhenTrigger: function() {
+        AddMessage (L10NMessages[this.Id][CurL10NMode]);
+
+        SetTrigger(EventLevel5Mine, false);
+
+        Unlock(ResFuelLock);
     }
 };
 
@@ -63,6 +79,7 @@ function InitEvents() {
     GetTrigger(EventFirstOre);
     GetTrigger(EventFirstTenOre);
     GetTrigger(EventFirstCome);
+    GetTrigger(EventLevel5Mine);
 }
 
 function TryTriggerEvent(event) {

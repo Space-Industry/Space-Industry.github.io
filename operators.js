@@ -1,5 +1,6 @@
 var Id_Mine = 'mine';
 var Id_Lang = 'lang';
+var Id_Reset = 'reset';
 
 function AddOperator(Id, onclick) {
     var operators = document.getElementById('operators');

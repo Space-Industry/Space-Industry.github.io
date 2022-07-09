@@ -1,14 +1,23 @@
 function Init() {
+    if (GetStorage('trigger_' + Id_FirstCome) === '') {
+        Event_FirstComeCanTriggered = true;
+        SetTrigger(Id_FirstCome, Event_FirstComeCanTriggered);
+    }
+
     InitResources();
     InitStorage();
     InitL10N();
-    AddMessage(L10NMessages[Id_FirstComeMsg1][CurL10NMode]);
-    AddMessage(L10NMessages[Id_FirstComeMsg2][CurL10NMode]);
+    InitTriggers();
+
     AddOperator(Id_Mine, DoMine);
     AddOperator(Id_Lang, ChangeLang);
+    AddOperator(Id_Reset, Reset);
+
     AddResource(Id_Ore, Res_Ores);
-    Event_FirstOreCanTriggered = true;
-    Event_FirstTenOreCanTriggered = true;
+
+    if (Event_FirstComeCanTriggered) {
+        TriggerFirstCome();
+    }
 }
 
 function ChangeLang() {
@@ -20,6 +29,15 @@ function ChangeLang() {
         SetStorage('lang', 'en_us');
         CurL10NMode = 'en_us';
     }
+    if (Event_FirstOreCanTriggered) {
+        Event_FirstComeCanTriggered = true;
+        SetTrigger(Id_FirstCome, Event_FirstComeCanTriggered);
+    }
+    location.reload();
+}
+
+function Reset() {
+    localStorage.clear();
     location.reload();
 }
 

@@ -31,6 +31,10 @@
         "lang": {
             "en_us": "change language",
             "zh_cn": "更改语言"
+        },
+        "reset": {
+            "en_us": "reset",
+            "zh_cn": "重置"
         }
     }
 }

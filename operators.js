@@ -1,4 +1,3 @@
-var Id_Mine = 'mine';
 var Id_Lang = 'lang';
 var Id_Reset = 'reset';
 

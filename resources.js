@@ -1,36 +1,40 @@
-var Res_Ores = 0;
-var Id_Ore = 'ore';
+var ResOre = {
+    Num: 0,
+    Id: 'ore',
+    Get: function() {
+        this.Num ++;
+        TryTriggerEvent(EventFirstOre);
+        TryTriggerEvent(EventFirstTenOre);
+        UpdateResource(this);
+    },
+    GetId: 'mine'
+}
+
+function GetRes(res) {
+    if (GetStorage('res_' + res.Id) !== '') {
+        res.Num = parseInt(GetStorage('res_' + res.Id));
+        return;
+    }
+    res.Num = 0;
+}
 
 function InitResources() {
-    if (GetStorage('res_' + Id_Ore) !== '') {
-        Res_Ores = parseInt(GetStorage('res_' + Id_Ore));
-    }
+    GetRes(ResOre);
 }
 
-function DoMine() {
-    Res_Ores ++;
-    if (Event_FirstOreCanTriggered && CanTriggerFirstOre()) {
-        TriggerFirstOre();
-    }
-    if (Event_FirstTenOreCanTriggered && CanTriggerFirstTenOre()) {
-        TriggerFirstTenOre();
-    }
-    UpdateResource(Id_Ore, Res_Ores);
-}
-
-function AddResource(Id, val) {
+function AddResource(res) {
     var resources = document.getElementById('resources');
-    var text = document.createTextNode(L10NResources[Id][CurL10NMode] + ':' + val);
+    var text = document.createTextNode(L10NResources[res.Id][CurL10NMode] + ':' + res.Num);
     var para = document.createElement('p');
-    para.id = 'res_' + Id;
+    para.id = 'res_' + res.Id;
     para.appendChild(text);
     if (resources !== null) {
         resources.appendChild(para);
     }
 }
 
-function UpdateResource(Id, value) {
-    var para = document.getElementById('res_' + Id);
-    para.innerText =  L10NResources[Id][CurL10NMode] + ':' + value;
-    SetStorage('res_' + Id, value.toString());
+function UpdateResource(res) {
+    var para = document.getElementById('res_' + res.Id);
+    para.innerText = L10NResources[res.Id][CurL10NMode] + ':' + res.Num;
+    SetStorage('res_' + res.Id, res.Num.toString());
 }

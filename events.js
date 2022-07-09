@@ -1,71 +1,65 @@
-var Event_FirstOreCanTriggered = false;
-var Id_FirstOre = 'first_ore';
-var Event_FirstTenOreCanTriggered = false;
-var Id_FirstTenOre = 'first_ten_ore';
-var Event_FirstComeCanTriggered = false;
-var Id_FirstCome = 'first_come';
-
-//-------------
-
-function GetTrigger(name) {
-    if (GetStorage('trigger_' + name) !== null) {
-        return GetStorage('trigger_' + name) === 'true';
+var EventFirstCome = {
+    CanTriggered: false,
+    Id: 'first_come',
+    CanTrigger: function() {
+        return this.CanTriggered;
+    },
+    WhenTrigger: function() {
+        AddMessage(L10NMessages[this.Id + '1'][CurL10NMode]);
+        AddMessage(L10NMessages[this.Id + '2'][CurL10NMode]);
+        SetTrigger(EventFirstCome, false);
+        SetTrigger(EventFirstOre, true);
     }
-    return false;
-}
+};
 
-function SetTrigger(name, val) {
-    SetStorage('trigger_' + name, val ? 'true' : 'false');
-}
+var EventFirstOre = {
+    CanTriggered: false,
+    Id: 'first_ore',
+    CanTrigger: function() {
+        return this.CanTriggered && ResOre.Num === 1;
+    },
+    WhenTrigger: function() {
+        AddMessage (L10NMessages[this.Id][CurL10NMode]);
+        SetTrigger(EventFirstOre, false);
+        SetTrigger(EventFirstTenOre, true);
+    }
+};
 
-function InitTriggers() {
-    Event_FirstOreCanTriggered = GetTrigger(Id_FirstOre);
-    Event_FirstTenOreCanTriggered = GetTrigger(Id_FirstTenOre);
-    Event_FirstComeCanTriggered = GetTrigger(Id_FirstCome);
-}
-
-//-----------
-
-function CanTriggerFirstCome() {
-    return true;
-}
-
-function TriggerFirstCome() {
-    AddMessage(L10NMessages[Id_FirstComeMsg1][CurL10NMode]);
-    AddMessage(L10NMessages[Id_FirstComeMsg2][CurL10NMode]);
-
-    Event_FirstComeCanTriggered = false;
-    SetTrigger(Id_FirstCome, Event_FirstComeCanTriggered);
-
-    Event_FirstOreCanTriggered = true;
-    SetTrigger(Id_FirstOre, Event_FirstOreCanTriggered);
-}
-
-//-----------
-
-function CanTriggerFirstOre() {
-    return Res_Ores === 1;
-}
-
-function TriggerFirstOre() {
-    AddMessage (L10NMessages[Id_FirstOreMsg][CurL10NMode]);
-
-    Event_FirstOreCanTriggered = false;
-    SetTrigger(Id_FirstOre, Event_FirstOreCanTriggered);
-
-    Event_FirstTenOreCanTriggered = true;
-    SetTrigger(Id_FirstTenOre, Event_FirstTenOreCanTriggered);
-}
+var EventFirstTenOre = {
+    CanTriggered: false,
+    Id: 'first_ten_ore',
+    CanTrigger: function() {
+        return this.CanTriggered && ResOre.Num === 10;
+    },
+    WhenTrigger: function() {
+        AddMessage (L10NMessages[this.Id][CurL10NMode]);
+        SetTrigger(EventFirstTenOre, false);
+    }
+};
 
 //-------------
 
-function CanTriggerFirstTenOre() {
-    return Res_Ores === 10;
+function GetTrigger(event) {
+    if (GetStorage('trigger_' + event.Id) !== null) {
+        event.CanTriggered = (GetStorage('trigger_' + event.Id) === 'true');
+        return;
+    }
+    event.CanTriggered = false;
 }
 
-function TriggerFirstTenOre() {
-    AddMessage (L10NMessages[Id_FirstTenOreMsg][CurL10NMode]);
+function SetTrigger(event, val) {
+    event.CanTriggered = val;
+    SetStorage('trigger_' + event.Id, val ? 'true' : 'false');
+}
 
-    Event_FirstTenOreCanTriggered = false;
-    SetTrigger(Id_FirstTenOre, Event_FirstTenOreCanTriggered);
+function InitEvents() {
+    GetTrigger(EventFirstOre);
+    GetTrigger(EventFirstTenOre);
+    GetTrigger(EventFirstCome);
+}
+
+function TryTriggerEvent(event) {
+    if (event.CanTrigger()) {
+        event.WhenTrigger();
+    }
 }

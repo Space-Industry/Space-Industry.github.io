@@ -1,23 +1,20 @@
 function Init() {
-    if (GetStorage('trigger_' + Id_FirstCome) === '') {
-        Event_FirstComeCanTriggered = true;
-        SetTrigger(Id_FirstCome, Event_FirstComeCanTriggered);
+    if (GetStorage('trigger_' + EventFirstCome.Id) === '') {
+        SetTrigger(EventFirstCome, true);
     }
 
     InitResources();
     InitStorage();
     InitL10N();
-    InitTriggers();
+    InitEvents();
 
-    AddOperator(Id_Mine, DoMine);
+    AddOperator(ResOre.GetId, function() {ResOre.Get();});
     AddOperator(Id_Lang, ChangeLang);
     AddOperator(Id_Reset, Reset);
 
-    AddResource(Id_Ore, Res_Ores);
+    AddResource(ResOre);
 
-    if (Event_FirstComeCanTriggered) {
-        TriggerFirstCome();
-    }
+    TryTriggerEvent(EventFirstCome);
 }
 
 function ChangeLang() {
@@ -29,15 +26,15 @@ function ChangeLang() {
         SetStorage('lang', 'en_us');
         CurL10NMode = 'en_us';
     }
-    if (Event_FirstOreCanTriggered) {
-        Event_FirstComeCanTriggered = true;
-        SetTrigger(Id_FirstCome, Event_FirstComeCanTriggered);
+    if (EventFirstOre.CanTriggered) {
+        SetTrigger(EventFirstCome, true);
     }
     location.reload();
 }
 
 function Reset() {
     localStorage.clear();
+    SetStorage('lang', CurL10NMode);
     location.reload();
 }
 

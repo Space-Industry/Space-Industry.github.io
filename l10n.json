@@ -1,0 +1,36 @@
+{
+    "messages": {
+        "first_come1": {
+            "en_us": "Welcome to Space Industry!",
+            "zh_cn": "欢迎来到太空工业"
+        },
+        "first_come2": {
+            "en_us": "Click the 'mine' button to get you first ore!",
+            "zh_cn": "点击mine按钮以获取你的第一块矿石"
+        },
+        "first_ore": {
+            "en_us": "Amazing!You have got your first ore!Try to get more!",
+            "zh_cn": "太棒了!你已经获得了你的第一块矿石!试着获取更多!"
+        },
+        "first_ten_ore": {
+            "en_us": "Great!You have collected 10 ores!Now you can update your mine machine!",
+            "zh_cn": "真好!你已经收集了10块矿石!现在你可以升级你的挖掘机了!"
+        }
+    },
+    "resources": {
+        "ore": {
+            "en_us": "ore",
+            "zh_cn": "矿石"
+        }
+    },
+    "operators": {
+        "mine": {
+            "en_us": "mine",
+            "zh_cn": "挖矿"
+        },
+        "lang": {
+            "en_us": "change language",
+            "zh_cn": "更改语言"
+        }
+    }
+}

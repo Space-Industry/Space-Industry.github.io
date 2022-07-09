@@ -1,5 +1,11 @@
 var Res_Ores = 0;
-var Ore_Name = 'ore'
+var Id_Ore = 'ore';
+
+function InitResources() {
+    if (GetStorage('res_' + Id_Ore) !== '') {
+        Res_Ores = parseInt(GetStorage('res_' + Id_Ore));
+    }
+}
 
 function DoMine() {
     Res_Ores ++;
@@ -9,21 +15,22 @@ function DoMine() {
     if (Event_FirstTenOreCanTriggered && CanTriggerFirstTenOre()) {
         TriggerFirstTenOre();
     }
-    UpdateResource(Ore_Name, Res_Ores);
+    UpdateResource(Id_Ore, Res_Ores);
 }
 
-function AddResource(name) {
+function AddResource(Id, val) {
     var resources = document.getElementById('resources');
-    var text = document.createTextNode(name + ':0');
+    var text = document.createTextNode(L10NResources[Id][CurL10NMode] + ':' + val);
     var para = document.createElement('p');
-    para.id = 'res_' + name;
+    para.id = 'res_' + Id;
     para.appendChild(text);
     if (resources !== null) {
         resources.appendChild(para);
     }
 }
 
-function UpdateResource(name, value) {
-    var para = document.getElementById('res_' + name);
-    para.innerText = name + ':' + value;
+function UpdateResource(Id, value) {
+    var para = document.getElementById('res_' + Id);
+    para.innerText =  L10NResources[Id][CurL10NMode] + ':' + value;
+    SetStorage('res_' + Id, value.toString());
 }

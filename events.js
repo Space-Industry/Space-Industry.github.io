@@ -1,11 +1,11 @@
 var Event_FirstOreCanTriggered = false;
 
 function CanTriggerFirstOre() {
-    return Res_Ores == 1;
+    return Res_Ores === 1;
 }
 
 function TriggerFirstOre() {
-    AddMessage ('Amazing!You have got your first ore!Try to get more!');
+    AddMessage (L10NMessages[Id_FirstOreMsg][CurL10NMode]);
     Event_FirstOreCanTriggered = false;
     Event_FirstTenOreCanTriggered = true;
 }
@@ -15,10 +15,10 @@ function TriggerFirstOre() {
 var Event_FirstTenOreCanTriggered = false;
 
 function CanTriggerFirstTenOre() {
-    return Res_Ores == 10;
+    return Res_Ores === 10;
 }
 
 function TriggerFirstTenOre() {
-    AddMessage ('Great!You have collected 10 ores!Now you can update your mine machine!');
+    AddMessage (L10NMessages[Id_FirstTenOreMsg][CurL10NMode]);
     Event_FirstTenOreCanTriggered = false;
 }

@@ -93,10 +93,10 @@ var ResFuel = {
         }
     },
     CalcBuyCostOres: function() {
-        return 44 + Math.trunc(((this.UpdateLevel - 4) ** 2) / 2.3);
+        return 44 + Math.trunc(((this.AutoMachines - 4) ** 2) / 2.3);
     },
     CalcBuyCostFuels: function() {
-        return 44 + Math.trunc(((this.UpdateLevel - 4) ** 2) / 2.5);
+        return 44 + Math.trunc(((this.AutoMachines - 4) ** 2) / 2.5);
     },
     Buy: function() {
         if (ResOre.Num >= this.CalcBuyCostOres() &&

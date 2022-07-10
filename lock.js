@@ -32,6 +32,29 @@ var ResFuelLock = {
     }
 }
 
+function MakeBuyText(res) {
+    return L10NOperators[Id_Buy][CurL10NMode] + L10NOperators[res.GetId][CurL10NMode] + L10NMiscs[Id_AutoMachine][CurL10NMode];
+}
+
+var AutoMachineLock = {
+    Id: 'auto_machine',
+    unlocked: false,
+    Unlock: function() {
+        this.unlocked = true;
+
+        AddOperatorWithName(MakeBuyText(ResOre), function() {
+            ResOre.Buy()
+        }, 2, 15, 5, 1);
+
+        AddOperatorWithName(MakeBuyText(ResFuel), function() {
+            ResFuel.Buy()
+        }, 3, 15, 5, 1);
+
+        UpdateResource(ResOre);
+        UpdateResource(ResFuel);
+    }
+}
+
 function Unlock(lock) {
     SetStorage('lock_' + lock.Id, 'true');
     lock.Unlock();
@@ -47,4 +70,5 @@ function InitLocks() {
     TryUnlock(ResOreLock);
     TryUnlock(OperatorUpdateLock);
     TryUnlock(ResFuelLock);
+    TryUnlock(AutoMachineLock);
 }

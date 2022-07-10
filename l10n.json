@@ -19,6 +19,10 @@
         "level_5_mine": {
             "en_us": "We should some fuel to update our mine machine!",
             "zh_cn": "我们需要一些燃料来升级我们的挖掘机!"
+        },
+        "level_5_collector": {
+            "en_us": "Good News!We found a way to get resources automatically.Each of auto machine clicks once per five seconds",
+            "zh_cn": "好消息!我们找到了一种自动获得资源的方法.每个自动机器每五秒点击一次!"
         }
     },
     "resources": {
@@ -55,6 +59,10 @@
         "reset": {
             "en_us": "reset",
             "zh_cn": "重置"
+        },
+        "buy": {
+            "en_us": "buy",
+            "zh_cn": "购买"
         }
     },
     "miscs": {
@@ -65,6 +73,18 @@
         "level": {
             "en_us": "level",
             "zh_cn": "等级"
+        },
+        "auto_machine": {
+            "en_us": "auto machine",
+            "zh_cn": "自动机器"
+        },
+        "per_five_second": {
+            "en_us": "per five seconds",
+            "zh_cn": "每五秒"
+        },
+        "buy_cost": {
+            "en_us": "buy cost",
+            "zh_cn": "购买费用"
         }
     }
 }

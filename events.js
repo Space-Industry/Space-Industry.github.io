@@ -55,10 +55,26 @@ var EventLevel5Mine = {
         AddMessage (L10NMessages[this.Id][CurL10NMode]);
 
         SetTrigger(EventLevel5Mine, false);
+        SetTrigger(EventLevel5Collector, true);
 
         Unlock(ResFuelLock);
     }
 };
+
+var EventLevel5Collector = {
+    CanTriggered: false,
+    Id: 'level_5_collector',
+    CanTrigger: function() {
+        return this.CanTriggered && ResFuel.UpdateLevel == 5;
+    },
+    WhenTrigger: function() {
+        AddMessage (L10NMessages[this.Id][CurL10NMode]);
+
+        SetTrigger(EventLevel5Collector, false);
+
+        Unlock(AutoMachineLock);
+    }
+}
 
 //-------------
 

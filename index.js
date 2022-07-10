@@ -7,11 +7,10 @@ function Init() {
     InitStorage();
     InitL10N();
     InitEvents();
+    InitLocks();
 
     AddOperator(Id_Lang,     ChangeLang,                   1,  1,  8,  1);
     AddOperator(Id_Reset,    Reset,                        1,  10,  4,  1);
-
-    InitLocks();
 
     TryTriggerEvent(EventFirstCome);
 }

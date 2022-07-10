@@ -9,6 +9,7 @@ var ResOre = {
     },
     GetId: 'mine_get',
     UpdateLevel: 1,
+    AutoMachines: 0,
     CalcUpdateCostOres: function() {
         return 10 + Math.trunc(((this.UpdateLevel - 1) ** 2) / 3);
     },
@@ -32,7 +33,28 @@ var ResOre = {
 
             this.UpdateLevel ++;
             TryTriggerEvent(EventLevel5Mine);
+
             UpdateResource(ResOre);
+            UpdateResource(this);
+        }
+    },
+    CalcBuyCostOres: function() {
+        return 36 + Math.trunc(((this.AutoMachines - 4) ** 2) / 2.6);
+    },
+    CalcBuyCostFuels: function() {
+        return 36 + Math.trunc(((this.AutoMachines - 4) ** 2) / 2.8);
+    },
+    Buy: function() {
+        if (ResOre.Num >= this.CalcBuyCostOres() &&
+            ResFuel.Num >= this.CalcBuyCostFuels()) {
+
+            ResOre.Num -= this.CalcBuyCostOres();
+            ResFuel.Num -= this.CalcBuyCostFuels();
+
+            this.AutoMachines ++;
+
+            UpdateResource(ResOre);
+            UpdateResource(ResFuel);
             UpdateResource(this);
         }
     },
@@ -48,6 +70,7 @@ var ResFuel = {
     },
     GetId: 'draw_get',
     UpdateLevel: 1,
+    AutoMachines: 0,
     CalcUpdateCostOres: function() {
         return 20 + Math.trunc(((this.UpdateLevel - 1) ** 2) / 2.5);
     },
@@ -62,6 +85,28 @@ var ResFuel = {
             ResFuel.Num -= this.CalcUpdateCostFuels();
 
             this.UpdateLevel ++;
+            TryTriggerEvent(EventLevel5Collector);
+
+            UpdateResource(ResOre);
+            UpdateResource(ResFuel);
+            UpdateResource(this);
+        }
+    },
+    CalcBuyCostOres: function() {
+        return 44 + Math.trunc(((this.UpdateLevel - 4) ** 2) / 2.3);
+    },
+    CalcBuyCostFuels: function() {
+        return 44 + Math.trunc(((this.UpdateLevel - 4) ** 2) / 2.5);
+    },
+    Buy: function() {
+        if (ResOre.Num >= this.CalcBuyCostOres() &&
+            ResFuel.Num >= this.CalcBuyCostFuels()) {
+
+            ResOre.Num -= this.CalcBuyCostOres();
+            ResFuel.Num -= this.CalcBuyCostFuels();
+
+            this.AutoMachines ++;
+
             UpdateResource(ResOre);
             UpdateResource(ResFuel);
             UpdateResource(this);
@@ -70,19 +115,38 @@ var ResFuel = {
     UpdateId: 'draw_update'
 }
 
+function GetNum(name) {
+    var value = GetStorage(name);
+    return value === '' ? 0 : parseInt(value);
+}
 
 function GetRes(res) {
     if (GetStorage('res_' + res.Id) !== '') {
-        res.Num = parseInt(GetStorage('res_' + res.Id));
-        res.UpdateLevel = parseInt(GetStorage('res_' + res.Id + '_update'));
+        res.Num = GetNum('res_' + res.Id);
+        res.UpdateLevel = GetNum('res_' + res.Id + '_update');
+        res.AutoMachines = GetNum('res_' + res.Id + '_machine');
         return;
     }
     res.Num = 0;
 }
 
+function CalcAutomachineGet(res) {
+    return res.AutoMachines * res.UpdateLevel;
+}
+
 function InitResources() {
     GetRes(ResOre);
     GetRes(ResFuel);
+
+    setInterval(function() {
+        if (AutoMachineLock.unlocked) {
+            ResOre.Num += CalcAutomachineGet(ResOre);
+            UpdateResource(ResOre);
+
+            ResFuel.Num += CalcAutomachineGet(ResFuel);
+            UpdateResource(ResFuel);
+        }
+    }, 5000);
 }
 
 function MakeText(res) {
@@ -98,6 +162,21 @@ function MakeText(res) {
 
         if (res.CalcUpdateCostFuels() !== 0) {
             text += L10NResources[ResFuel.Id][CurL10NMode] + ':' + res.CalcUpdateCostFuels().toString();
+        }
+
+        text += ']' + ')';
+    }
+
+    if (AutoMachineLock.unlocked) {
+        text += '(+' + CalcAutomachineGet(res).toString() + ' ' + L10NMiscs[Id_PerFiveSecond][CurL10NMode] + ', '+
+        L10NMiscs[Id_BuyCost][CurL10NMode] + ': [';
+
+        if (res.CalcBuyCostOres() !== 0) {
+            text += L10NResources[ResOre.Id][CurL10NMode] + ':' + res.CalcBuyCostOres().toString();
+        }
+
+        if (res.CalcBuyCostFuels() !== 0) {
+            text += L10NResources[ResFuel.Id][CurL10NMode] + ':' + res.CalcBuyCostFuels().toString();
         }
 
         text += ']' + ')';
@@ -120,5 +199,6 @@ function UpdateResource(res) {
     var para = document.getElementById('res_' + res.Id);
     para.innerText = MakeText(res);
     SetStorage('res_' + res.Id, res.Num.toString());
-    SetStorage('res_' + res.Id + "_update", res.UpdateLevel.toString());
+    SetStorage('res_' + res.Id + '_update', res.UpdateLevel.toString());
+    SetStorage('res_' + res.Id + '_machine', res.AutoMachines.toString());
 }
